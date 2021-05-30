@@ -5,22 +5,21 @@
 static const unsigned int borderpx  = 1;        /* border pixel of windows */
 static const Gap default_gap        = {.isgap = 1, .realgap = 10, .gappx = 10};
 static const unsigned int snap      = 32;       /* snap pixel */
-static const int showbar            = 1;        /* 0 means no bar */
+static const int showbar            = 0;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 static const char *fonts[]          = {
-		"BlexMono Nerd Font:size=12",
-		"Fira Code:size=12",
-		"Hack:size=12",
-		"terminal:size=12",
-		"monospace:size=12",
+	"SauceCodePro Nerd Font Mono:size=12",
+	"BlexMono Nerd Font:size=12",
+	"Fira Code:size=12",
+	"Hack:size=12",
+	"terminal:size=12",
+	"monospace:size=12",
 };
 
-static const char dmenufont[] = "BlexMono Nerd Font:size=12";
-
-static const char fg[]        = "#f8f8f2";
-static const char fgsel[]     = "#ffffff";
-static const char bg[]        = "#16161d";
-static const char bgsel[]     = "#44475a";
+static const char fg[]        = "#ebdbb2";
+static const char fgsel[]     = "#fbf1c7";
+static const char bg[]        = "#282828";
+static const char bgsel[]     = "#d79921";
 
 static const char *colors[][3] = {
 	/*               fg, bg, border   */
@@ -37,7 +36,7 @@ static const Rule rules[] = {
 	 *	WM_NAME(STRING) = title
 	 */
 	/* class      instance    title       tags mask     isfloating   monitor */
-	{ NULL,       NULL,       NULL,       0,            False,       -1 },
+	{ "KeePassXC",NULL,       NULL,       0,            1,           -1 },
 };
 
 /* layout(s) */
@@ -65,26 +64,29 @@ static const Layout layouts[] = {
 
 /* commands */
 static char dmenumon[2]        = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[]  = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", bg, "-nf", fg, "-sb", bgsel, "-sf", fgsel, NULL };
+static const char *dmenucmd[]  = { "dmenu_run", NULL };
 static const char *termcmd[]   = { "st", NULL };
 static const char *brightinc[] = { "brightness", "inc", NULL };
 static const char *brightdec[] = { "brightness", "dec", NULL };
 static const char *volinc[]    = { "volume", "inc", NULL };
 static const char *voldec[]    = { "volume", "dec", NULL };
+static const char *screenshot[] = { "screenshot", NULL };
 
+// *** /usr/include/X11/keysymdef.h
 #include "movestack.c"
 static Key keys[] = {
 	/* modifier,          key,                      function,       argument */
+	{ MODKEY|ControlMask, XK_s,                     spawn,          {.v = screenshot  } },
 	{ MODKEY,             XK_f,                     spawn,          {.v = dmenucmd    } },
 	{ MODKEY,             XK_Return,                spawn,          {.v = termcmd     } },
 	{ 0,                  XF86XK_MonBrightnessUp,   spawn,          {.v = brightinc   } },
 	{ 0,                  XF86XK_MonBrightnessDown, spawn,          {.v = brightdec   } },
 	{ 0,                  XF86XK_AudioRaiseVolume,  spawn,          {.v = volinc      } },
 	{ 0,                  XF86XK_AudioLowerVolume,  spawn,          {.v = voldec      } },
-	{ MODKEY,             XK_minus,                 setgaps,        {.i = -5          } },
-	{ MODKEY,             XK_plus,                  setgaps,        {.i = +5          } },
-	{ MODKEY,             XK_equal,                 setgaps,        {.i = GAP_RESET   } },
-	{ MODKEY|ShiftMask,   XK_equal,                 setgaps,        {.i = GAP_TOGGLE  } },
+	{ MODKEY,             XK_KP_Subtract,                 setgaps,        {.i = -5          } },
+	{ MODKEY,             XK_KP_Add,                  setgaps,        {.i = +5          } },
+	{ MODKEY,             XK_KP_Multiply,                 setgaps,        {.i = GAP_RESET   } },
+	{ MODKEY|ShiftMask,   XK_KP_Multiply,                 setgaps,        {.i = GAP_TOGGLE  } },
 	{ MODKEY,             XK_h,                     movestack,      {.i = -1          } },
 	{ MODKEY,             XK_l,                     movestack,      {.i = +1          } },
 	{ MODKEY,             XK_j,                     focusstack,     {.i = +1          } },
@@ -95,17 +97,17 @@ static Key keys[] = {
 	{ MODKEY,             XK_i,                     incnmaster,     {.i = -1          } },
 	{ MODKEY,             XK_t,                     setlayout,      {.v = &layouts[0] } },
 	{ MODKEY,             XK_n,                     setlayout,      {.v = &layouts[1] } },
-	{ MODKEY,             XK_m,                     setlayout,      {.v = &layouts[2] } },
+	{ MODKEY,             XK_m,			togglefullscr,  {0		  } },
 	{ MODKEY,             XK_space,                 setlayout,      {0                } },
 	{ MODKEY|ShiftMask,   XK_space,                 togglefloating, {0                } },
 	{ MODKEY,             XK_Tab,                   view,           {0                } },
 	{ MODKEY,             XK_0,                     view,           {.ui = ~0         } },
 	{ MODKEY|ShiftMask,   XK_0,                     tag,            {.ui = ~0         } },
 	{ MODKEY,             XK_b,                     togglebar,      {0                } },
-	/* { MODKEY,             XK_comma,                 focusmon,       {.i = -1          } }, */
-	/* { MODKEY,             XK_period,                focusmon,       {.i = +1          } }, */
-	/* { MODKEY|ShiftMask,   XK_comma,                 tagmon,         {.i = -1          } }, */
-	/* { MODKEY|ShiftMask,   XK_period,                tagmon,         {.i = +1          } }, */
+	{ MODKEY,             XK_asterisk,                 focusmon,       {.i = -1          } },
+	{ MODKEY,             XK_period,                focusmon,       {.i = +1          } },
+	{ MODKEY|ShiftMask,   XK_asterisk,                 tagmon,         {.i = -1          } },
+	{ MODKEY|ShiftMask,   XK_period,                tagmon,         {.i = +1          } },
 	{ MODKEY,             XK_q,                     killclient,     {0                } },
 	{ MODKEY|ControlMask, XK_q,                     quit,           {0                } },
 	TAGKEYS(XK_a,         0) // idk (console)
