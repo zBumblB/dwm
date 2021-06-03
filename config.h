@@ -76,17 +76,17 @@ static const char *screenshot[] = { "screenshot", NULL };
 #include "movestack.c"
 static Key keys[] = {
 	/* modifier,          key,                      function,       argument */
-	{ MODKEY|ControlMask, XK_s,                     spawn,          {.v = screenshot  } },
+	{ MODKEY|ControlMask, XK_x,                     spawn,          {.v = screenshot  } },
 	{ MODKEY,             XK_f,                     spawn,          {.v = dmenucmd    } },
 	{ MODKEY,             XK_Return,                spawn,          {.v = termcmd     } },
 	{ 0,                  XF86XK_MonBrightnessUp,   spawn,          {.v = brightinc   } },
 	{ 0,                  XF86XK_MonBrightnessDown, spawn,          {.v = brightdec   } },
 	{ 0,                  XF86XK_AudioRaiseVolume,  spawn,          {.v = volinc      } },
 	{ 0,                  XF86XK_AudioLowerVolume,  spawn,          {.v = voldec      } },
-	{ MODKEY,             XK_KP_Subtract,                 setgaps,        {.i = -5          } },
-	{ MODKEY,             XK_KP_Add,                  setgaps,        {.i = +5          } },
-	{ MODKEY,             XK_KP_Multiply,                 setgaps,        {.i = GAP_RESET   } },
-	{ MODKEY|ShiftMask,   XK_KP_Multiply,                 setgaps,        {.i = GAP_TOGGLE  } },
+	{ MODKEY,             XK_KP_Subtract,           setgaps,        {.i = -5          } },
+	{ MODKEY,             XK_KP_Add,                setgaps,        {.i = +5          } },
+	{ MODKEY,             XK_KP_Multiply,           setgaps,        {.i = GAP_RESET   } },
+	{ MODKEY|ShiftMask,   XK_KP_Multiply,           setgaps,        {.i = GAP_TOGGLE  } },
 	{ MODKEY,             XK_h,                     movestack,      {.i = -1          } },
 	{ MODKEY,             XK_l,                     movestack,      {.i = +1          } },
 	{ MODKEY,             XK_j,                     focusstack,     {.i = +1          } },
@@ -97,17 +97,18 @@ static Key keys[] = {
 	{ MODKEY,             XK_i,                     incnmaster,     {.i = -1          } },
 	{ MODKEY,             XK_t,                     setlayout,      {.v = &layouts[0] } },
 	{ MODKEY,             XK_n,                     setlayout,      {.v = &layouts[1] } },
-	{ MODKEY,             XK_m,			togglefullscr,  {0		  } },
+	{ MODKEY,             XK_m,                     togglefullscr,  {0                } },
 	{ MODKEY,             XK_space,                 setlayout,      {0                } },
 	{ MODKEY|ShiftMask,   XK_space,                 togglefloating, {0                } },
 	{ MODKEY,             XK_Tab,                   view,           {0                } },
 	{ MODKEY,             XK_0,                     view,           {.ui = ~0         } },
 	{ MODKEY|ShiftMask,   XK_0,                     tag,            {.ui = ~0         } },
 	{ MODKEY,             XK_b,                     togglebar,      {0                } },
-	{ MODKEY,             XK_asterisk,                 focusmon,       {.i = -1          } },
 	{ MODKEY,             XK_period,                focusmon,       {.i = +1          } },
-	{ MODKEY|ShiftMask,   XK_asterisk,                 tagmon,         {.i = -1          } },
 	{ MODKEY|ShiftMask,   XK_period,                tagmon,         {.i = +1          } },
+	/// only have 2 monitors, so it doesn't matter which direction i go in.
+	/* { MODKEY,             XK_asterisk,                 focusmon,       {.i = -1          } }, */
+	/* { MODKEY|ShiftMask,   XK_asterisk,                 tagmon,         {.i = -1          } }, */
 	{ MODKEY,             XK_q,                     killclient,     {0                } },
 	{ MODKEY|ControlMask, XK_q,                     quit,           {0                } },
 	TAGKEYS(XK_a,         0) // idk (console)
